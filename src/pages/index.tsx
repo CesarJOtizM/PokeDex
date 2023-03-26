@@ -1,4 +1,4 @@
-import LoginForm from '@/components/loginForm'
+import Pokedex from '@/components/pokedex'
 import Head from 'next/head'
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
         <title>Pokedex</title>
       </Head>
 
-      <div>Dashboard</div>
+      <Pokedex />
     </>
   )
 }

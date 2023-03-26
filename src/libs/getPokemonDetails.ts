@@ -7,7 +7,7 @@ export interface pokemonsWithDetail {
   url: string
   image: string
   weight: number
-  moves: Abilities
+  moves: Abilities[]
 }
 
 const getPokemonDetails = async (

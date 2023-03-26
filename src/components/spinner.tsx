@@ -38,5 +38,5 @@ const Svg = tw.svg`
 
 const Span = tw.span`
   mt-2 animate-bounce
-  text-blue-700
+  text-white
  `
