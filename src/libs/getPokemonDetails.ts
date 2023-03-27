@@ -24,7 +24,7 @@ const getPokemonDetails = async (
 
         pokeDetail.push({
           ...el,
-          image: data.sprites.other['official-artwork'].front_default,
+          image: data.sprites.front_default,
           weight: data.weight,
           moves: data.abilities
         })

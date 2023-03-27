@@ -1,9 +1,12 @@
 import { pokemonsWithDetail } from '@/libs/getPokemonDetails'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import defaultImage from '@/images/pokeball-2.png'
+import Modal from '@/hooks/useModal'
+import Details from './details'
+
 const Card: React.FC<pokemonsWithDetail> = ({
   image,
   moves,
@@ -12,32 +15,44 @@ const Card: React.FC<pokemonsWithDetail> = ({
   weight
 }) => {
   const date = new Date().toLocaleDateString()
-  return (
-    <Wrapper>
-      <ImgWrapper>
-        <Img
-          src={image ? image : defaultImage}
-          alt="Pokemon"
-          fill
-          sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw"
-        />
-        <InfoWrapper>
-          <Info>{date}</Info>
-          <Info>Peso: {weight / 10}Kg</Info>
-        </InfoWrapper>
-      </ImgWrapper>
+  const [openModal, setOpenModal] = useState(false)
 
-      <TextWrapper>
-        <Title>{name}</Title>
-        <TagsWrapper>
-          {moves &&
-            moves.map(el => (
-              <Tags key={el.ability.url}>#{el.ability.name} </Tags>
-            ))}
-        </TagsWrapper>
-      </TextWrapper>
-    </Wrapper>
+  const handleModal = () => {
+    setOpenModal(!openModal)
+  }
+  return (
+    <>
+      <Wrapper onClick={handleModal}>
+        <ImgWrapper>
+          <Img
+            src={image ? image : defaultImage}
+            alt="Pokemon"
+            fill
+            sizes="(max-width: 768px) 100vw,
+                (max-width: 1200px) 50vw"
+          />
+          <InfoWrapper>
+            <Info>{date}</Info>
+            <Info>Peso: {weight / 10}Kg</Info>
+          </InfoWrapper>
+        </ImgWrapper>
+
+        <TextWrapper>
+          <Title>{name}</Title>
+          <TagsWrapper>
+            {moves &&
+              moves.map(el => (
+                <Tags key={el.ability.url}>#{el.ability.name} </Tags>
+              ))}
+          </TagsWrapper>
+        </TextWrapper>
+        {openModal && (
+          <Modal>
+            <Details url={url} closeModal={handleModal} />
+          </Modal>
+        )}
+      </Wrapper>
+    </>
   )
 }
 
@@ -53,6 +68,9 @@ const Wrapper = tw.div`
   shadow-2xl
   overflow-hidden
   w-s
+  cursor-pointer
+  hover:scale-110 
+  transition-all
 `
 const ImgWrapper = tw.div`
   relative
