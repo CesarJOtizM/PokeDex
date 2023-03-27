@@ -147,12 +147,13 @@ const CardsWrapper = tw.div`
 row-start-2	
 h-full
 mt-20
+flex
+flex-col
+justify-between
 md:mt-0
 `
 const WrapperLoader = tw.div`
-h-full
 row-start-2
-min-h-screen
 flex
 justify-center
 `

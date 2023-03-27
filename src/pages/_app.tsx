@@ -5,6 +5,7 @@ import { darkTheme, lightTheme } from '@/styles/theme'
 import { ThemeProvider } from 'styled-components'
 import 'tailwindcss/tailwind.css'
 import Head from 'next/head'
+import { AuthProvider } from '@/context/authContext'
 
 export default function App({ Component, pageProps }: AppProps) {
   const { value } = useDarkMode(false, {
@@ -21,9 +22,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.svg" />
       </Head>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </AuthProvider>
     </>
   )
 }

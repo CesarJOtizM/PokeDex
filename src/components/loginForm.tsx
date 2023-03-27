@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import Spinner from './spinner'
 import logo from '@/images/Logo.png'
+import { useUser } from '@/context/authContext'
 
 interface loginCredentials {
   email: string
@@ -23,10 +24,13 @@ const LoginForm: React.FC = () => {
   const [showPass, setShowPass] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { user } = useUser()
+
   const initialValues: loginCredentials = {
     email: '',
     password: ''
   }
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .email('Ingreses un email valido')
@@ -45,8 +49,7 @@ const LoginForm: React.FC = () => {
     })
     if (response.status === 200) {
       const { accessToken } = await response.json()
-      console.log(accessToken)
-      sessionStorage.setItem('token', accessToken)
+      user.setAuthState(accessToken)
       router.push('/')
       setLoading(false)
     } else {

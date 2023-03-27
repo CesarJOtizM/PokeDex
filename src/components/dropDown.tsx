@@ -5,10 +5,13 @@ import { createAvatar } from '@dicebear/core'
 import { pixelArtNeutral } from '@dicebear/collection'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useUser } from '@/context/authContext'
 
 const DropDown: React.FC = () => {
   const [show, setShow] = useState(false)
   const router = useRouter()
+  const { user } = useUser()
+
   const handleShow = () => {
     setShow(!show)
   }
@@ -19,10 +22,11 @@ const DropDown: React.FC = () => {
 
   const img = avatar.toDataUriSync()
 
-  const logOut = () => {
-    sessionStorage.clear()
+  const singOut = () => {
+    user.logOut()
     router.push('/login')
   }
+
   return (
     <Wrapper>
       <button id="dropdownHoverButton" type="button" onClick={handleShow}>
@@ -34,7 +38,7 @@ const DropDown: React.FC = () => {
             <Li>
               <a href="#">Profile</a>
             </Li>
-            <Li onClick={logOut}>
+            <Li onClick={singOut}>
               <a href="#">Sign out</a>
             </Li>
           </Ul>

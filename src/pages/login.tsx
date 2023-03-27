@@ -2,12 +2,23 @@ import LoginForm from '@/components/loginForm'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import pokeball from '@/images/Pokeball.jpg'
+import { useRouter } from 'next/router'
+import { useUser } from '@/context/authContext'
 
 const login: NextPage = () => {
+  const { user } = useUser()
+  const router = useRouter()
+
+  useEffect(() => {
+    const isAuth = user.isUserAuthenticated()
+    if (!isAuth) router.push('/login')
+    else router.push('/')
+  }, [])
+
   return (
     <>
       <Head>
