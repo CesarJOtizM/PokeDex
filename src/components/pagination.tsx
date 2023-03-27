@@ -40,6 +40,7 @@ const Pagination: React.FC<Iprops> = ({
     totalCount: items,
     pageSize: itemsPerPage,
     currentPage
+    // siblingCount: 2
   })
 
   return (
@@ -83,13 +84,14 @@ const Pagination: React.FC<Iprops> = ({
 
 export default Pagination
 
-const Wrapper = tw.div`
+const Wrapper = tw.footer`
 flex
 justify-center
 w-full
 text-gray-800
 rounded-l-md
 md:text-white
+
 `
 
 const Ul = tw.ul`

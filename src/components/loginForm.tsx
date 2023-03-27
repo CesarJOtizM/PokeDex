@@ -9,6 +9,8 @@ import charizard from '@/images/charizard.png'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import Spinner from './spinner'
+import logo from '@/images/Logo.png'
+
 interface loginCredentials {
   email: string
   password: string
@@ -69,15 +71,8 @@ const LoginForm: React.FC = () => {
               <Spinner />
             ) : (
               <>
-                {/* <Image
-                  src="https://s3.amazonaws.com/mox.cash/website/615b3d76eef2b86a7a22a186_mox-main-logo-sep21.svg"
-                  alt="Poke Api"
-                  width={180}
-                  height={40}
-                  priority
-                /> */}
+                <Image src={logo} alt="Logo" width={200} priority />
                 <H1>Inicio de sesión</H1>
-
                 <InputWrapper>
                   <Label
                     error={errors.email && touched.email ? true : false}
@@ -159,7 +154,7 @@ const FormStyled = styled(Form)`
     flex-col
     justify-center
     items-center
-    h-96
+    h-fit
     min-h-96
     mt-10
     `}
@@ -168,7 +163,7 @@ const H1 = tw.h1`
   text-center text-2xl
   font-bold	
   text-blue-700
-  mb-4
+  my-4
 `
 
 const InputWrapper = styled.div`

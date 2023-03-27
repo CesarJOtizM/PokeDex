@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Pokedex</title>
+        <title>Pokepedia - Pokedex</title>
       </Head>
 
       <Pokedex />

@@ -27,6 +27,7 @@ export default async function handler(
     const { data }: { data: allPokemons } = await axios.get(
       `${URI}/pokemon?offset=${offset}&limit=${limit}`
     )
+
     const { results } = data
     const pokemonDetails = await getPokemonDetails(results)
 

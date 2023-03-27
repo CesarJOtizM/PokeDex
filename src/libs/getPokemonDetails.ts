@@ -14,6 +14,7 @@ const getPokemonDetails = async (
   results: results[]
 ): Promise<pokemonsWithDetail> => {
   return new Promise(async resolve => {
+    const max = results.length
     try {
       const pokeDetail: any = []
       results.forEach(async el => {
@@ -28,7 +29,7 @@ const getPokemonDetails = async (
           moves: data.abilities
         })
 
-        if (pokeDetail.length >= 10) return resolve(pokeDetail)
+        if (pokeDetail.length >= max) return resolve(pokeDetail)
       })
     } catch (error) {
       console.log(error)

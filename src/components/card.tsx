@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
-
+import defaultImage from '@/images/pokeball-2.png'
 const Card: React.FC<pokemonsWithDetail> = ({
   image,
   moves,
@@ -16,7 +16,7 @@ const Card: React.FC<pokemonsWithDetail> = ({
     <Wrapper>
       <ImgWrapper>
         <Img
-          src={image}
+          src={image ? image : defaultImage}
           alt="Pokemon"
           fill
           sizes="(max-width: 768px) 100vw,
@@ -32,10 +32,9 @@ const Card: React.FC<pokemonsWithDetail> = ({
         <Title>{name}</Title>
         <TagsWrapper>
           {moves &&
-            moves.map(
-              (el, i) =>
-                i >= 1 && <Tags key={el.ability.url}>#{el.ability.name} </Tags>
-            )}
+            moves.map(el => (
+              <Tags key={el.ability.url}>#{el.ability.name} </Tags>
+            ))}
         </TagsWrapper>
       </TextWrapper>
     </Wrapper>
@@ -46,7 +45,7 @@ export default Card
 
 const Wrapper = tw.div`
   max-w-s
-  h-85
+  min-h-96
   bg-white
   border
   border-gray-400
@@ -70,35 +69,34 @@ const InfoWrapper = styled.div`
   justify-between
   z-10
 `}
-  &:first-child {
-    border: solid 1px red;
-  }
 `
 
 const Info = tw.p`
-  text-white bg-blue-700
-  font-medium rounded-full
-  text-sm px-2 py-2.5
-  text-center
+bg-blue-900 text-blue-300 
+text-xs font-medium mr-2 
+px-2.5 py-0.5 rounded-full
 `
 
 const Img = styled(Image)`
   background-size: contain;
   ${tw`
   rounded-t-lg
+  w-auto
+  h-auto
     `};
 `
 const TextWrapper = tw.div`
-  p-4
   border-t-2
+  px-4
+  pt-2
+  pb-5
   border-t-indigo-500
 `
 
-const Title = tw.div`mb-2 text-2xl font-bold tracking-tight text-black`
+const Title = tw.div`text-2xl font-extrabold tracking-tight text-black`
 
 const TagsWrapper = tw.div`
 flex
 flex-wrap
-mt-3
 `
-const Tags = tw.p`mr-1 font-normal text-green-800 `
+const Tags = tw.p`mr-1 text-sm text-green-800 `

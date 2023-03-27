@@ -7,6 +7,7 @@ import { pokemonsWithDetail } from '@/libs/getPokemonDetails'
 import Pagination from './pagination'
 import Swal from 'sweetalert2'
 import Spinner from './spinner'
+import NavBar from './navBar'
 
 interface styledProps {
   image: {
@@ -16,7 +17,7 @@ interface styledProps {
 
 const Pokedex: React.FC = () => {
   const [pokemonList, setPokemonList] = useState<pokemonsWithDetail[]>()
-  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [currentPage, setCurrentPage] = useState<number>(2)
   const [loading, setLoading] = useState<boolean>(true)
   const [totalPokemons, setTotalPokemons] = useState<number>(0)
 
@@ -44,8 +45,17 @@ const Pokedex: React.FC = () => {
   }, [])
 
   const handleChangePage = async (pageNumber: number, next = false) => {
+    if (pageNumber == currentPage) return
+
     setLoading(true)
-    const offset = next ? pageNumber : pageNumber * 10
+    let offset = 0
+
+    if (pageNumber == 1 || pageNumber == 10) {
+      offset = 0
+    } else if (next) {
+      offset = pageNumber
+    } else offset = pageNumber * 10
+
     try {
       const response = await fetch(
         `/api/getPokemons/?offset=${offset}&limit=10`
@@ -54,6 +64,7 @@ const Pokedex: React.FC = () => {
         const { results } = await response.json()
         setPokemonList(results)
         setCurrentPage(next ? pageNumber / 10 : pageNumber)
+
         setLoading(false)
       }
     } catch (error) {
@@ -66,13 +77,16 @@ const Pokedex: React.FC = () => {
       setLoading(false)
     }
   }
+
   return (
     <Wrapper image={forest}>
-      <header>barra</header>
+      <NavBar />
       {loading ? (
-        <Spinner />
+        <WrapperLoader>
+          <Spinner />
+        </WrapperLoader>
       ) : (
-        <>
+        <CardsWrapper>
           <Cards>
             {pokemonList &&
               pokemonList.map(el => (
@@ -92,7 +106,7 @@ const Pokedex: React.FC = () => {
             itemsPerPage={10}
             onChangePage={handleChangePage}
           />
-        </>
+        </CardsWrapper>
       )}
     </Wrapper>
   )
@@ -107,16 +121,17 @@ const Wrapper = styled.div`
 
   ${tw`
   w-full
-  h-full
+  h-fit	
   min-h-screen
-  flex
+  md:grid
+  gap-5
   items-center
   justify-center
   flex-col
-`}
+  md:[grid-template-rows: 75px auto]
+`};
 `
 const Cards = tw.div`
-  p-5
   max-w-8xl
   mx-auto
   flex
@@ -126,4 +141,18 @@ const Cards = tw.div`
   gap-2.5
   flex-wrap
   md:flex-row md:gap-5
+`
+
+const CardsWrapper = tw.div`
+row-start-2	
+h-full
+mt-20
+md:mt-0
+`
+const WrapperLoader = tw.div`
+h-full
+row-start-2
+min-h-screen
+flex
+justify-center
 `
